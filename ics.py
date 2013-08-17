@@ -3,10 +3,11 @@
 
 import icalendar
 import pytz
-from datetime import datetime
+from datetime import datetime, timedelta
 
-class ics():
+class Syllics():
     def __init__(self, name):
+        self.name = name
         self.cal = icalendar.Calendar()
         self.cal.add('PRODID', '-//SYLLABUS//nasta//CN')
         self.cal.add('VERSION', '2.0')
@@ -27,8 +28,15 @@ class ics():
         alarm.add('ACTION', 'DISPLAY')
         alarm.add('DESCRIPTION', 'Reminder')
         event.add_component(alarm)
+        self.cal.add_component(event)
 
     def close(self):
-        f=open(name, 'wb')
+        f = open(self.name, 'wb')
         f.write(self.cal.to_ical())
 
+
+if __name__ == '__main__':
+    ics = Syllics('test.ics')
+    ics.addEvent('uid', 'subject', datetime(2013, 8, 17, 15, 14, 0,
+            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
+    ics.close()
