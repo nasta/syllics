@@ -39,24 +39,8 @@ class Syllics():
 
 if __name__ == '__main__':
     ics = Syllics('test.ics')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 11, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 12, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 13, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 14, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 15, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 16, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 17, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 18, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 19, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
-    ics.addEvent('uid', 'subject', datetime(2013, 8, 20, 15, 14, 0,
-            tzinfo=pytz.timezone('Asia/Shanghai')), 'place', 30, 'desc')
+    ics.addEvent('uid1', 'subject1', datetime(2013, 8, 23, 16, 40, 0,
+            tzinfo=pytz.timezone('Asia/Shanghai')), 'place1', 1, 'desc')
+    ics.addEvent('uid2', 'subject2', datetime(2013, 8, 23, 17, 14, 0,
+            tzinfo=pytz.timezone('Asia/Shanghai')), 'place2', 30, 'desc')
     ics.close()
