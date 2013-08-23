@@ -1,0 +1,80 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//University of California Berkeley//MCB Events Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:MCB Events
+X-WR-TIMEZONE:America/Los_Angeles
+X-WR-CALDESC:MCB Events
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART:20130522T190000Z
+DTEND:20130522T200000Z
+DTSTAMP:20130820T055941Z
+UID:67085-ucb-events-calendar@berkeley.edu
+LOCATION:106 Stanley Hall
+ORGANIZER:
+SUMMARY:Prashant Mali: Cas9 as a versatile tool for engineering human cells
+DESCRIPTION:Other Speaker Institution: Harvard Medical School
+URL:http://events.berkeley.edu/index.php/calendar/sn/mcb.html?event_ID=6708
+ 5
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20130523T193000Z
+DTEND:20130523T203000Z
+DTSTAMP:20130820T055941Z
+UID:67062-ucb-events-calendar@berkeley.edu
+LOCATION:101 Life Sciences Addition
+ORGANIZER:
+SUMMARY:**Tal Arnon**: Lymphocytes shuttling between vascular and lymphoid 
+ tissues
+DESCRIPTION:Department of Molecular and Cell Biology Speaker Institution: U
+ niversity of California\, San Francisco
+URL:http://events.berkeley.edu/index.php/calendar/sn/mcb.html?event_ID=6706
+ 2
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20130523T230000Z
+DTEND:20130524T000000Z
+DTSTAMP:20130820T055941Z
+UID:66825-ucb-events-calendar@berkeley.edu
+LOCATION:177 Life Sciences Addition
+ORGANIZER:
+SUMMARY:Liming Wang: The neural basis of food seeking behavior in fruit fli
+ es
+DESCRIPTION:Other Speaker Institution: University of California\, Berkeley
+URL:http://events.berkeley.edu/index.php/calendar/sn/mcb.html?event_ID=6682
+ 5
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20130524T230000Z
+DTEND:20130525T000000Z
+DTSTAMP:20130820T055941Z
+UID:60740-ucb-events-calendar@berkeley.edu
+LOCATION:245 Li Ka Shing Center
+ORGANIZER:
+SUMMARY:Hidde Ploegh: Biochemistry with a little help from our microbial fr
+ iends
+DESCRIPTION:Marian E. Koshland Memorial Lecture Series Speaker Institution:
+  Whitehead Institute
+URL:http://events.berkeley.edu/index.php/calendar/sn/mcb.html?event_ID=6074
+ 0
+END:VEVENT
+END:VCALENDAR
