@@ -1,3 +1,5 @@
+loginfo.py
+
 *.py[cod]
 
 # C extensions
