@@ -23,7 +23,7 @@ class Log(models.Model):
 	action = models.CharField(max_length=20)
 	result = models.CharField(max_length=20)
 	detail = models.TextField()
-	date   = models.DateTimeField("Date", auto_now=True)
+	date_time = models.DateTimeField("Date", auto_now=True)
 
 	def __unicode__(self):
-		return "%s : %s" % (action, result)
+		return "%s : %s" % (self.action, self.result)
