@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<link rel="stylesheet" type="text/css" href="/static/base.css">
+</head>
+<body>
+	<div id="content">
+	{% block content %}
+	{% endblock %}
+	</div>
+	<div id="footer">
+		{% block footer %}
+		<hr />
+		<p>Thank you visit my site.</p>
+		{% endblock %}
+	</div>
+</body>
+</html>

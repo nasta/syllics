@@ -1,9 +1,25 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from ical.models import Calendar
+from ical.models import Calendar, Login
+
+from mytjut import getClassTable
+from syllabus import getClassList
 
 def index(request):
-    return HttpResponse("index")
+    return render(request, "index.html")
+
+def login(request):
+	if request.method == "POST":
+		username = request.POST["username"]
+		password = request.POST["password"]
+		table = getClassTable(username, password)
+		if table:
+			result = getClassList(table)
+			return HttpResponse(result)
+		else:
+			return HttpResponse(u"login failed")
+	else:
+		return HttpResponse("login")
 
 def ical(request, ical_id):
     ics = get_object_or_404(Calendar, pk=ical_id)

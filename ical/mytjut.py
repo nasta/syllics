@@ -20,14 +20,19 @@ def getClassTable(username, password):
 	}
 
 	s = requests.Session()
-	_INDEX_URL = "http://www.baidu.com"
 	r = s.get(_INDEX_URL)
 	if r.content.find("loginURL:'userPasswordValidate.portal'") == -1:
 		from logerr import logerr
-		logerr("获得首页", "不符合预期", r.content)
+		logerr(u"获得首页", u"不符合预期", r.content)
 		return None
 
 	r = s.post(_POST_URL, data=param)
+	print r.content
+	if r.content.find("false") != -1:
+		from logerr import logerr
+		logerr(u"登陆", u"登录失败", r.content)
+		return False
+
 	r = s.get(_INDEX_URL)
 	content = r.content
 	soup = BeautifulSoup.BeautifulSoup(content)
@@ -43,7 +48,8 @@ def getClassTable(username, password):
 	table = soup.findAll(attrs={"style":"padding-top:0px;"})
 	table = table[1].table
 	s.get(_LOGOUT_URL)
-	return table
+	return str(table)
 
 if __name__ == "__main__":
+	print getClassTable("a", "b")
 	print getClassTable(loginfo.USER, loginfo.PASS)

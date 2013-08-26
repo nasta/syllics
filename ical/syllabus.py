@@ -1,48 +1,38 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-# Last Modified: 2013/08/16 19:10
-# 课程表获取
-# 返回一个包含所有课程信息的List
 
-from  BeautifulSoup import BeautifulSoup
+from json import dumps
+from BeautifulSoup import BeautifulSoup
 
 def getClassList(content):
-    soup = BeautifulSoup(content)
-    i = 0
+    soup   = BeautifulSoup(content)
+    names  = []
     result = []
+
+    count = 0
     for tr in soup.table.findAll('tr'):
         if str(tr).find('colspan') != -1:
-            break
-        lesson = []
+            continue
+        i = 0
+        lesson = {}
         for td in tr.findAll('td'):
-            if str(td).find('#f6f6f6">') == -1:
-                place = False
-            else:
-                place = True
-            time = False
-            try:
-                if td['width'] == '300':
-                    time = True
-            except:
-                pass
             texts = td.findAll(text=True)
-            if time:
-                p = []
-                for i in range(len(texts)):
-                    p.append(texts[i].strip())
-                lesson.append(p)
-            elif place:
-                texts = " ".join([text.strip() for text in texts])
-                lesson.append(texts.split())
+            texts = " ".join([text.strip() for text in texts])
+            if count == 0:
+                names.append(texts)
             else:
-                texts = " ".join([text.strip() for text in texts])
-                lesson.append(texts)
-        i += 1
-        result.append(lesson)
-    return result[1:]
+                lesson[names[i]] = texts
+            i += 1
+        if count != 0:
+            result.append(lesson)
+        count += 1
+    return result
 
 if __name__ == '__main__':
-    result = getClassList(open('syllabus.htm').read().decode('gbk'))
+    import mytjut, loginfo
+    table = mytjut.getClassTable(loginfo.USER, loginfo.PASS)
+    result = getClassList(table)
     for i in result:
-        print i
-    print len(result)
+        for key in i.keys():
+            print "%s : %s" % (key, i[key])
+        print ""

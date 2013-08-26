@@ -1,0 +1,29 @@
+html, body {
+	min-height:400px;
+	height:auto!important;
+	height:400px;
+	margin-left: 6%;
+	margin-right:6%;
+}
+
+.input {
+	margin: 2px;
+}
+
+#content {
+	font-size: medium;
+	clear:both;
+	min-height:8em;
+	position:relative;
+	margin-bottom: 1em;
+}
+
+#content h1, h2, h3{
+	text-align: center;
+}
+
+#footer{
+	text-align: center;
+	position: relative;
+	bottom: 0;
+}

@@ -1,5 +1,9 @@
 from django.db import models
 
+class Login(models.Model):
+	username = models.CharField(max_length="12", primary_key=True)
+	password = models.CharField(max_length="20")
+
 class Calendar(models.Model):
 	url = models.CharField(max_length=6, primary_key=True)
 	class_table = models.TextField()
@@ -20,3 +24,6 @@ class Log(models.Model):
 	result = models.CharField(max_length=20)
 	detail = models.TextField()
 	date   = models.DateTimeField("Date", auto_now=True)
+
+	def __unicode__(self):
+		return "%s : %s" % (action, result)
