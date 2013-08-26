@@ -1,7 +1,8 @@
 from django.db import models
 
 class Calendar(models.Model):
-	url = models.CharField(max_length=8, primary_key=True)
+	url = models.CharField(max_length=6, primary_key=True)
+	class_table = models.TextField()
 	content = models.TextField()
 	create_date = models.DateTimeField("date created", auto_now=True)
 
@@ -13,3 +14,9 @@ class Calendar(models.Model):
 
 	def __unicode__(self):
 		return self.url
+
+class Log(models.Model):
+	action = models.CharField(max_length=20)
+	result = models.CharField(max_length=20)
+	detail = models.TextField()
+	date   = models.DateTimeField("Date", auto_now=True)
