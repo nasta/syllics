@@ -1,9 +1,50 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
+import re
 import icalendar
 import pytz
 from datetime import datetime, timedelta
+
+timeTable = (
+    None,
+    ((8, 0), (8, 45)),
+    ((8, 55), (9, 40)),
+    ((10, 10), (10, 55)),
+    ((11, 05), (11, 50)),
+    ((12, 20), (13, 40)),
+    ((12, 20), (13, 40)),
+    ((14, 0), (14, 45)),
+    ((14, 55), (15, 40)),
+    ((16, 10), (16, 55)),
+    ((17, 05), (17, 50)),
+    ((18, 30), (19, 15)),
+    ((19, 25), (20, 10)),
+    ((20, 20), (21, 05)),
+)
+
+
+def genClassSchedule(classList):
+    for cs in classList:
+        cs[u"课程号"]
+        cs[u"课程名称"]
+        cs[u"上课教师"]
+        dayofweek = cs[u"上课星期"].split(u"星期")[1]
+        m = re.compile(r".(\d{1,2})\-(\d{1,2}).+").match(cs[u"上课节次"])
+        beginclass, endclass = [int(i) for i in m.groups()]
+        m = re.compile(r"(\d+)\-(\d+).\(?(.)?\)?").match(cs[u"上课周次"])
+        beginweek, endweek, numbers = m.groups()
+        beginweek = int(beginweek)
+        endweek = int(endweek)
+        if numbers == u"双":
+            numbers = "even"
+        elif numbers == u"单":
+            numbers = "odd"
+        else:
+            numbers = None
+        print beginclass, endclass
+        cs[u"上课地点"]
+
 
 class Syllics():
     def __init__(self, name):
@@ -44,7 +85,17 @@ def test():
     ics.ical()
 
 if __name__ == '__main__':
+    """
     from timeit import Timer 
     t1 = Timer("test()", "from __main__ import test")
     print t1.timeit(10)
     print t1.repeat(3, 10)
+    """
+    from loginfo import USER, PASS
+    from syllabus import getClassList, getClassTable
+    table = getClassTable(USER, PASS)
+    if table:
+        result = getClassList(open("E:/Desktop/newtable.html").read().decode("gbk"))
+        print genClassSchedule(result)
+    else:
+        print "getClassTable failed"
