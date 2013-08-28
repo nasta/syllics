@@ -25,45 +25,56 @@ timeTable = (
 
 
 def genClassSchedule(classList):
+    _termdate = datetime(2013, 9, 2)
+    ics = Syllics()
     for cs in classList:
-        cs[u"课程号"]
-        cs[u"课程名称"]
-        cs[u"上课教师"]
-        dayofweek = cs[u"上课星期"].split(u"星期")[1]
+        course_num = cs[u"课程号"]
+        course_name = cs[u"课程名称"]
+        teacher = cs[u"上课教师"]
+        weeks = []
+        dayofweek = int(cs[u"上课星期"].split(u"星期")[1])
         m = re.compile(r".(\d{1,2})\-(\d{1,2}).+").match(cs[u"上课节次"])
         beginclass, endclass = [int(i) for i in m.groups()]
-        m = re.compile(r"(\d+)\-(\d+).\(?(.)?\)?").match(cs[u"上课周次"])
-        beginweek, endweek, numbers = m.groups()
-        beginweek = int(beginweek)
-        endweek = int(endweek)
-        if numbers == u"双":
-            numbers = "even"
-        elif numbers == u"单":
-            numbers = "odd"
-        else:
-            numbers = None
-        print beginclass, endclass
-        cs[u"上课地点"]
+        for i in cs[u"上课周次"].split(','):
+            m = re.compile(r"(\d+)\-(\d+).\(?(.)?\)?").match(i)
+            beginweek, endweek, numbers = m.groups()
+            beginweek, endweek = int(beginweek), int(endweek)
+            if not numbers:
+                step = 1
+            else:
+                step = 2
+            weeks += range(beginweek, endweek+1, step)
 
+        place = cs[u"上课地点"]
+
+        for week in weeks:
+            uid = "%s|%s|%d|%d" % (course_num, course_name, week, dayofweek)
+            starttime = timedelta(weeks=week-1, days=dayofweek-1, 
+                hours=timeTable[beginclass][0][0],
+                minutes=timeTable[beginclass][0][1]) + _termdate
+            endtime = timedelta(weeks=week-1, days=dayofweek-1, 
+                hours=timeTable[endclass][1][0],
+                minutes=timeTable[endclass][1][1]) + _termdate
+            ics.addEvent(course_name, starttime, endtime, place, 30, teacher, uid)
+    ics.save("b.ics")
+    return ics.ical()
 
 class Syllics():
-    def __init__(self, name):
-        self.name = name
+    def __init__(self):
         self.cal = icalendar.Calendar()
         self.cal.add('PRODID', '-//nasta//SYLLABUS//CN')
         self.cal.add('VERSION', '2.0')
         self.cal.add('X-WR-CALNAME', '课程表')
         self.cal.add('CALSCALE', 'GREGORIAN')
 
-    def addEvent(self, subject, time, place, beforealert, desc, week):
-        uid = "%s|%s|%d" % (self.name, subject, week)
+    def addEvent(self, subject, starttime, endtime, place, beforealert, desc, uid):
         event = icalendar.Event()
         event.add('CREATED', datetime.now())
         event.add('LAST-MODIFIED', datetime.now())
         event.add('DESCRIPTION', desc)
-        event.add('DTEND', time)
-        event.add('DTSTAMP', time)
-        event.add('DTSTART', time)
+        event.add('DTEND', endtime)
+        event.add('DTSTAMP', starttime)
+        event.add('DTSTART', starttime)
         event.add('LOCATION', place)
         event.add('PRIORITY', '5')
         event.add('SUMMARY', subject)
@@ -74,6 +85,11 @@ class Syllics():
         alarm.add('DESCRIPTION', 'Reminder')
         event.add_component(alarm)
         self.cal.add_component(event)
+
+    def save(self, name):
+        f = open(name, "wb")
+        f.write(self.cal.to_ical())
+        f.close()
 
     def ical(self):
         return self.cal.to_ical()
@@ -96,6 +112,9 @@ if __name__ == '__main__':
     table = getClassTable(USER, PASS)
     if table:
         result = getClassList(open("E:/Desktop/newtable.html").read().decode("gbk"))
-        print genClassSchedule(result)
+        ics = genClassSchedule(result)
+        f = open("test.ics", "w")
+        f.write(ics)
+        f.close()
     else:
         print "getClassTable failed"
