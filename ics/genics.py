@@ -56,7 +56,7 @@ class Course():
         """
             genCourse(courseTable)
         """
-        soup   = BeautifulSoup.BeautifulSoup(courseTable)
+        soup   = BeautifulSoup(courseTable)
         names  = []
         classList = []
 
@@ -77,7 +77,6 @@ class Course():
             if count != 0:
                 classList.append(lesson)
             count += 1
-        return classList
 
         # 遍历课程列表
         for cs in classList:
@@ -86,15 +85,11 @@ class Course():
             teacher     = cs[u"上课教师"]
             place       = cs[u"上课地点"]
 
-            # 获得星期几
             dayofweek = int(cs[u"上课星期"].split(u"星期")[1])
 
-            # 获得上课节次
-            m = re.compile(r".(\d{1,2})\-(\d{1,2}).+").match(cs[u"上课节次"])
-            time = m.join("-")
+            m = re.compile(r".(\d{1,2})\-(\d{1,2}).+").match(cs[u"上课节次"]).groups()
+            time = "-".join(m)
 
-            # 获得上课周次
-            # weeks用来存储在哪几个周上课
             weeks = []
             for i in cs[u"上课周次"].split(','):
                 m = re.compile(r"(\d+)\-(\d+).\(?(.)?\)?").match(i)
@@ -106,7 +101,7 @@ class Course():
                     step = 2
                 weeks += range(beginweek, endweek+1, step)
 
-            yield Course(course_name, course_name, teacher, weeks, dayofweek, place, time)
+            yield Course(course_num, course_name, teacher, weeks, dayofweek, place, time)
 
 
 class Syllics():
@@ -121,22 +116,25 @@ class Syllics():
         self.cal.add('CALSCALE', 'GREGORIAN')
 
     def addCourse(self, course):
-        uid = "%s|%s|%d|%d" % (course.course_num, course.course_name,
-                course.week_num, course.dayofweek)
-        desc = ""
-        beforealert = 0
+        desc = u"教师: %s" % course.teacher
+        beforealert = 30
+        time = [int(i) for i in course.time.split("-")]
+        print course.dayofweek
 
-        time = time.split("-")
-        starttime = timedelta(weeks = course.week_num - 1, days = course.dayofweek - 1, 
+        for week_num in course.weeks:
+            uid = "%s|%s|%d|%d" % (course.course_num, course.course_name,
+                    week_num, course.dayofweek)
+            starttime = timedelta(weeks = week_num - 1, days = course.dayofweek - 1, 
                     hours = _timeTable[time[0]] [0][0],
-                    minutes = _timeTable[time[1]] [0][1]) + _termdate
+                    minutes = _timeTable[time[0]] [0][1]) + _termdate
 
-        endtime = timedelta(weeks = course.week_num - 1, days = course.dayofweek - 1, 
-                    hours = timeTable[time[0]] [1][0],
-                    minutes = timeTable[time[0]] [1][1]) + _termdate
+            endtime = timedelta(weeks = week_num - 1, days = course.dayofweek - 1, 
+                    hours = _timeTable[time[1]] [1][0],
+                    minutes = _timeTable[time[1]] [1][1]) + _termdate
 
-        self.addEvent(subject=course.course_name, starttime=starttime, endtime=endtime, 
-                    place=course.place, uid=uid, desc=desc, beforealert=beforealert)
+            #print course.course_name, starttime, endtime, course.place, uid, desc, beforealert
+            self.addEvent(subject=course.course_name, starttime=starttime, endtime=endtime, 
+                        place=course.place, uid=uid, desc=desc, beforealert=beforealert)
 
 
     def addEvent(self, subject, starttime, endtime, place, uid, desc="", beforealert=0):
@@ -177,15 +175,3 @@ class Syllics():
         """
         """
         return self.cal.to_ical()
-
-
-
-if __name__ == '__main__':
-    from loginfo import USER, PASS
-    from syllabus import getClassList, getClassTable
-    table = getClassTable(USER, PASS)
-    if table:
-        result = getClassList(open("E:/Desktop/newtable.html").read().decode("gbk"))
-        ics = genClassSchedule(result)
-    else:
-        print "getClassTable failed"

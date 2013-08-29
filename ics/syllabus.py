@@ -4,8 +4,6 @@
 from json import dumps
 import requests
 import BeautifulSoup, re
-import traceback
-import loginfo
 
 _INDEX_URL   = "http://my.tjut.edu.cn/index.portal"
 _POST_URL    = "http://my.tjut.edu.cn/userPasswordValidate.portal"
@@ -28,16 +26,12 @@ def getClassTable(username, password):
     # 判断获取首页内容是否正确
     req = session.get(_INDEX_URL)
     if req.content.find("loginURL:'userPasswordValidate.portal'") == -1:
-        from logerr import logerr
-        logerr(u"获得首页", u"不符合预期", req.content)
-        return None
+        return False, u"获取登录网页失败"
 
     # 登陆
     req = session.post(_POST_URL, data=param)
     if req.content.find("false") != -1:
-        from logerr import logerr
-        logerr(u"登陆", u"登录失败", req.content)
-        return False
+        return False, u"登录失败"
 
     # 获取课程表URL
     req = session.get(_INDEX_URL)
@@ -68,13 +62,6 @@ def getClassTable(username, password):
     return str(table)
 
 if __name__ == '__main__':
-    import mytjut, loginfo
-    table = mytjut.getClassTable(loginfo.USER, loginfo.PASS)
-    result = getClassList(table)
-    for i in result:
-        for key in i.keys():
-            print "%s : %s" % (key, i[key])
-        print ""
-
-    print getClassTable("a", "b")
-    print getClassTable(loginfo.USER, loginfo.PASS)
+    import loginfo
+    table = getClassTable(loginfo.USER, loginfo.PASS)
+    print table
