@@ -7,8 +7,8 @@ class LogAdmin(admin.ModelAdmin):
 	list_filter = ['date_time', 'action']
 
 class CalendarAdmin(admin.ModelAdmin):
-	list_display = ('url', 'create_date')
-	list_filter = ['create_date']
+	list_display = ('url', 'create_date', 'modified')
+	list_filter = ['create_date', 'modified']
 
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Log, LogAdmin)

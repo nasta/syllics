@@ -26,12 +26,12 @@ def getClassTable(username, password):
     # 判断获取首页内容是否正确
     req = session.get(_INDEX_URL)
     if req.content.find("loginURL:'userPasswordValidate.portal'") == -1:
-        return False, u"获取登录网页失败"
+        raise RuntimeError(u"get url failed")
 
     # 登陆
     req = session.post(_POST_URL, data=param)
     if req.content.find("false") != -1:
-        return False, u"登录失败"
+        raise RuntimeError(u"login failed")
 
     # 获取课程表URL
     req = session.get(_INDEX_URL)
@@ -62,6 +62,4 @@ def getClassTable(username, password):
     return str(table)
 
 if __name__ == '__main__':
-    import loginfo
-    table = getClassTable(loginfo.USER, loginfo.PASS)
-    print table
+    table = getClassTable("", "")

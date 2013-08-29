@@ -108,18 +108,21 @@ class Syllics():
     """
         Syllics类，可根据课程上课信息生成ics文件
     """
-    def __init__(self):
+    def __init__(self, table=""):
         self.cal = icalendar.Calendar()
         self.cal.add('PRODID', '-//nasta//SYLLABUS//CN')
         self.cal.add('VERSION', '2.0')
         self.cal.add('X-WR-CALNAME', '课程表')
         self.cal.add('CALSCALE', 'GREGORIAN')
 
+        if table != "":
+            for course in Course.genCourse(table):
+                self.addCourse(course)
+
     def addCourse(self, course):
         desc = u"教师: %s" % course.teacher
         beforealert = 30
         time = [int(i) for i in course.time.split("-")]
-        print course.dayofweek
 
         for week_num in course.weeks:
             uid = "%s|%s|%d|%d" % (course.course_num, course.course_name,
