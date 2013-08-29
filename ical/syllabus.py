@@ -12,34 +12,6 @@ _POST_URL    = "http://my.tjut.edu.cn/userPasswordValidate.portal"
 _REQUEST_URL = "http://my.tjut.edu.cn/pnull.portal"
 _LOGOUT_URL  = "http://my.tjut.edu.cn/logout.portal"
 
-def getClassList(content):
-    """
-        根据table生成课程列表
-    """
-
-    soup   = BeautifulSoup.BeautifulSoup(content)
-    names  = []
-    result = []
-
-    count = 0
-    for tr in soup.table.findAll('tr'):
-        if str(tr).find('colspan') != -1:
-            continue
-        i = 0
-        lesson = {}
-        for td in tr.findAll('td'):
-            texts = td.findAll(text=True)
-            texts = " ".join([text.strip() for text in texts])
-            if count == 0:
-                names.append(texts)
-            else:
-                lesson[names[i]] = texts
-            i += 1
-        if count != 0:
-            result.append(lesson)
-        count += 1
-    return result
-
 
 def getClassTable(username, password):
 
