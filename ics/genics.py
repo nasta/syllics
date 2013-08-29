@@ -181,20 +181,11 @@ class Syllics():
 
 
 if __name__ == '__main__':
-    """
-    from timeit import Timer 
-    t1 = Timer("test()", "from __main__ import test")
-    print t1.timeit(10)
-    print t1.repeat(3, 10)
-    """
     from loginfo import USER, PASS
     from syllabus import getClassList, getClassTable
     table = getClassTable(USER, PASS)
     if table:
         result = getClassList(open("E:/Desktop/newtable.html").read().decode("gbk"))
         ics = genClassSchedule(result)
-        f = open("test.ics", "w")
-        f.write(ics)
-        f.close()
     else:
         print "getClassTable failed"
