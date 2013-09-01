@@ -5,17 +5,28 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width" />
 	<link rel="stylesheet" type="text/css" href="/static/base.css">
+	{% block head %}
+	{% endblock %}
 </head>
 <body>
-	<div id="content">
-	{% block content %}
-	{% endblock %}
-	</div>
-	<div id="footer">
-		{% block footer %}
-		<hr />
-		<p>Thank you visit my site.</p>
+	<!--
+	<a href="http://github.com/nasta/syllics"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+	-->
+	<div class="box">
+		<div class="nav">
+		{% block nav %}
 		{% endblock %}
+		</div>
+		<div class="content">
+		{% block content %}
+		{% endblock %}
+		</div>
+		<div class="footer">
+			{% block footer %}
+			<hr />
+			<p>&copy;nasta 2013</p>
+			{% endblock %}
+		</div>
 	</div>
 </body>
 </html>

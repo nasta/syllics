@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block head %}
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/index.js"></script>
+{% endblock %}
+
+{% block title %}Syllics - 在线在线生成ical日历文件{% endblock %}
+
+{% block nav %}
+
+{% endblock %}
+
+{% block content %}
+	<h1>
+		<a href="/ical">Syllics</a>
+	</h1>
+	<div id="login">
+	{% if url == "" %}
+		<table id="login">
+			<form method="POST" action="login">{% csrf_token %}
+				<tr>
+					<td>学号</td>
+					<td>
+					<input name="username" id="user" type="text" value=""/>
+					</td>
+				</tr>
+				<tr>
+					<td>密码</td>
+					<td>
+					<input name="password" id="pass" type="password" value=""/>
+					</td>
+				</tr>
+				<tr>
+					<td>提醒</td>
+					<td>
+						<select name="alarm" id="alarm">
+						  <option value ="30">提前30分钟</option>
+						  <option value ="15">提前15分钟</option>
+						  <option value="0">不提前</option>
+						  <option value="-1">关闭提醒</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="submit">
+						<center><input name="commit" type="submit"/></center>
+					</td>
+				</tr>
+			</form>
+		</table>
+	<div class="error">
+	{% if error %}
+		{{ error }}
+	{% else %}
+	 	&nbsp;
+	{% endif %}
+	</div>
+	{% else %}
+		<p>
+			ical文件地址：<a href="{{ url }}">{{ url }}</a>
+			<br />
+			<a href="logout">重新生成</a>
+		</p>
+
+	<div class="hint">
+	<h5>导入到iOS中:</h5>
+	<p>
+		方法一：直接在Safari中打开生成的网址。（注：最好添加新的日历，方便删除）
+		<br />
+		方法二：设置 -> 日历 -> 添加账户 -> 其他 -> 添加已订阅的日历 -> 服务器中填上生成的网址（不推荐）
+	</p>
+
+	<h5>导入到Google Calendar:</h5>
+	<p>
+		<a href="https://www.google.com/calendar/" target="_blank">Google Calendar</a> -> 其他日历 -> 通过网址添加
+		<br />
+		建议在添加之前在“我的日历”处“创建新日历”以供导入
+	</p>
+	</div>
+	{% endif %}
+	</div>
+{% endblock %}

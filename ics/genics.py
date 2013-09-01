@@ -108,8 +108,9 @@ class Syllics():
     """
         Syllics类，可根据课程上课信息生成ics文件
     """
-    def __init__(self, table=""):
+    def __init__(self, table="", alarm=30):
         self.cal = icalendar.Calendar()
+        self.alarm = alarm
         self.cal.add('PRODID', '-//nasta//SYLLABUS//CN')
         self.cal.add('VERSION', '2.0')
         self.cal.add('X-WR-CALNAME', '课程表')
@@ -137,7 +138,7 @@ class Syllics():
 
             #print course.course_name, starttime, endtime, course.place, uid, desc, beforealert
             self.addEvent(subject=course.course_name, starttime=starttime, endtime=endtime, 
-                        place=course.place, uid=uid, desc=desc, beforealert=beforealert)
+                        place=course.place, uid=uid, desc=desc, beforealert=self.alarm)
 
 
     def addEvent(self, subject, starttime, endtime, place, uid, desc="", beforealert=0):
@@ -161,11 +162,12 @@ class Syllics():
         event.add('UID', uid)
 
         # 添加Alarm
-        alarm = icalendar.Alarm()
-        alarm.add('TRIGGER', timedelta(seconds=-60*beforealert))
-        alarm.add('ACTION', 'DISPLAY')
-        alarm.add('DESCRIPTION', 'Reminder')
-        event.add_component(alarm)
+        if beforealert != -1:
+            alarm = icalendar.Alarm()
+            alarm.add('TRIGGER', timedelta(seconds=-60*beforealert))
+            alarm.add('ACTION', 'DISPLAY')
+            alarm.add('DESCRIPTION', 'Reminder')
+            event.add_component(alarm)
 
         self.cal.add_component(event)
 

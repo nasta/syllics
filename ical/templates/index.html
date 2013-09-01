@@ -1,17 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}Syllics{% endblock %}
+{% block head %}
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/index.js"></script>
+{% endblock %}
+
+{% block title %}Syllics - 在线在线生成ical日历文件{% endblock %}
+
+{% block nav %}
+
+{% endblock %}
+
 {% block content %}
-<h1>Syllics</h1>
-<form method="POST" action="login">{% csrf_token %}
-	<div class="input">
-		<input name="username" id="user" type="text" placeholder="学号" value=""/>
+	<h1>
+	<a href="/ical">Syllics</a>
+	</h1>
+	<div class="show">
+		<center>
+			<img class="pic" src="/static/1.png" />
+			<img class="pic" src="/static/2.png" />
+		</center>
+		<div class=box>
+			<a href="login">立即生成</a>
+		</box>
 	</div>
-	<div class="input">
-		<input name="password" id="pass" type="password" placeholder="密码" value=""/>
-	</div>
-	<div class="input">
-		<input name="commit" type="submit"/>
-	</div>
-</form>
 {% endblock %}
