@@ -28,7 +28,8 @@ class Calendar(models.Model):
 		if not self.id:
 			self.create_date = datetime.datetime.now()
 			self.modified = self.create_date
-			self.url = ''.join(random.sample(string.ascii_letters+string.digits, 6))
+			if not self.url:
+				self.url = ''.join(random.sample(string.ascii_lowercase+string.digits, 6))
 		self.modified = datetime.datetime.now()
 		return super(Calendar, self).save(*args, **kwargs)
 

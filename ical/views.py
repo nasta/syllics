@@ -28,8 +28,15 @@ def login(request):
 			request.session["loginFalse"] = True
 			return redirect(login)
 		cal = Calendar(class_table=table, content=Syllics(table, alarm).ical())
-		cal.save()
-		url = "http://" + request.META["HTTP_HOST"] + "/ical/" + cal.url + ".ics"
+		saved = False
+		while not saved:
+			try:
+				cal.save()
+				saved = True
+			except IntegrityError, e:
+				pass
+
+		url = "http://" + request.META["HTTP_HOST"] + "/" + cal.url + ".ics"
 		request.session['url'] = url
 		return redirect(login)
 	else:
@@ -52,6 +59,3 @@ def ical(request, url):
     response["content-type"]  = "text/calendar; charset=utf-8"
     response["Cache-Control"] = "no-store, no-cache, must-revalidate"
     return response
-
-def ics(request):
-	pass

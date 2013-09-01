@@ -9,17 +9,31 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'syllics.db',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'syllics',                      # Or path to database file if using sqlite3.
+            # The following settings are not used with sqlite3:
+            'USER': "root",
+            'PASSWORD': "zzjjkk",
+            'HOST': "192.168.88.131",                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': "",                      # Set to empty string for default.
+        }
     }
-}
+else:
+    from bae.core import const
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'aDVMaZWSpwHKEadMPMRS',                      # Or path to database file if using sqlite3.
+            # The following settings are not used with sqlite3:
+            'USER': const.MYSQL_USER,
+            'PASSWORD': const.MYSQL_PASS,
+            'HOST': const.MYSQL_HOST,                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': const.MYSQL_PORT,                      # Set to empty string for default.
+        }
+    }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -69,6 +83,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    "static",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
