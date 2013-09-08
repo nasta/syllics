@@ -16,7 +16,7 @@ Convert my SYLLabus to ICS format, which can be imported to iOS calendar.
 
 ## Dependencies ##
 
-* django >= 1.5
+* django > 1.4
 * BeautifulSoup
 * requests
 * icalendar
